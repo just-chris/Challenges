@@ -1,0 +1,439 @@
+[//Setea Autor y Fecha de Creacion de la Carta
+[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CATACTION:SETVALUE:'CAT_Document':'Author':[LL_REPTAG_USERID USERINFO:NAME /] /]
+[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CATACTION:SETVALUE:'CAT_Document':'Creation Date':[LL_REPTAG_DATE TODATE:"%d/%m/%Y" /] /]
+
+[//Comienzo de JavaScript FormUI
+[LL_WEBREPORT_EXCLUDEHTML /]
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart View - Outgoing Letter</title>
+    <link rel="icon" type="image/vnd.microsoft.icon"
+    href="/img/csui/themes/carbonfiber/image/favicon.ico?v=1159.0.48471915828">
+ 
+    <SCRIPT>
+    baseURL = "/otcs/cs.exe"
+    </SCRIPT>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <SCRIPT SRC="[LL_REPTAG_LIBPATH /]ajax.js"></SCRIPT>
+    <script >
+        var areasString = "[LL_WEBREPORT_SUBWEBREPORT NODEID:[LL_REPTAG_$WR_AREAS /] /]";
+        var emailsPreloaded = "[LL_WEBREPORT_SUBWEBREPORT NODEID:[LL_REPTAG_$WR_EMAILS /] /]";
+        var maxAreas = 5;
+        var x = 1;
+        var arrayArea = [];
+        var arrayEmails = [];
+	     function actualizarAreas(){
+            for (var j = 1; j <= x; j++) {
+                for(var i = 0;i<arrayArea.length;i++){
+                    if ( $('#areas'+j).val() == arrayArea[i][0]){
+                        $('#areaId'+j).html(  arrayArea[i][1] );
+                    }    
+                }
+            }   
+            }
+        function obtenerTodasLasAreas(){
+            var areasTotal="";
+                for (var j = 1; j <= x; j++) {
+                    areasTotal +=$('#areas'+j).val()+"|";
+                      
+                }
+                return areasTotal;
+        }
+        function obtenerTodasLasAreasID(){
+            var areasTotal="";
+                for (var j = 1; j <= x; j++) {
+                    areasTotal +=$('#areaId'+j).val()+"|";
+                }
+                return areasTotal;
+        }
+        $(document).ready(function () {
+            // Get the modal
+            var modal = document.getElementById("myModal");
+            var optHandlerFunc = function () { JSfunction() };
+        	var handlerFunc = function () { executeJS( http_request, optHandlerFunc ) };
+        		// Handle the response to sendRequest
+            	function executeJS(http_request, JSfunction) {
+            		if (http_request.readyState == 4) {
+            			if (http_request.status == 200) {
+            				// Display the results from the target WR in the current page
+            				document.getElementById('result').innerHTML = http_request.responseText;
+            				window.location.replace("[LL_REPTAG_URLPREFIXFULL /]/app"); 
+            				if ( JSfunction ) {
+            					// execute any user passed function
+            					JSfunction();
+            				}
+            			} else {
+            				alert('There was a problem with the request.');
+            			}
+            		}
+            	}
+            
+            	function JSfunction() {
+            		// Add anything else here after the results are displayed
+            	}
+            
+            areasString = areasString.split(':');
+            
+            for(var i = 0;i<areasString.length-1;i++)
+            {
+                arrayArea.push(areasString[i].split(','));   
+                var option = document.createElement("option"); //Creas el elemento opción
+                $(option).html(arrayArea[i][0]);
+                $(option).appendTo("#areas1"); //Lo metes en el select con id areas
+            }
+            
+            emailsPreloaded = emailsPreloaded.split(':');
+            
+            for(var i = 0;i<emailsPreloaded.length-1;i++)
+            {
+                arrayEmails.push(emailsPreloaded[i].split(','));   
+                var option = document.createElement("option"); //Creas el elemento opción
+                $(option).html(arrayEmails[i][1]); 
+                $(option).appendTo("#emails"); //Lo metes en el select con id emails
+            }
+            
+            
+            $('.areas').change( function() {
+                actualizarAreas();  
+            });
+           
+            $('#areas1').val(arrayArea[14][0]);          
+            actualizarAreas();
+            
+            $('#botonEnviar').click( function() {
+                selectedBoxes();
+            });
+            
+            $('#btnAddCC').click( function( event) {
+                event.preventDefault();
+                var separator = "";
+                if ($('#ccId').val().length > 0)
+                separator = " , ";
+                $('#ccId').val( $('#ccId').val() + separator + $('#emails').val());
+            });
+            $('#btnAddTo').click( function(event) {
+                event.preventDefault();
+                var separator = "";
+                if ($('#toId').val().length > 0)
+                separator = " , ";
+                
+                $('#toId').val( $('#toId').val() + separator + $('#emails').val());
+                
+            });
+            $('#showEmail').click( function() {
+                
+               if ($(this).prop('checked')){
+                    $('#emailDiv').show("linear");
+                }   else    {
+                    $('#emailDiv').hide("linear");
+                }
+                 
+                
+            });
+             $('.add_button').click(function(){ //Once add button is clicked
+                if(x < maxAreas){ //Check maximum number of input fields
+                    x++; //Increment field counter
+                    $('.areasDiv').append('<div>'+
+                    'Area <select onchange="actualizarAreas()" name="listaArea" cols=150 id ="areas' + x +'" class="areas"  style="margin-bottom: 5px; width: 20%; font-size: 15px; margin-left: 5px; color: darkblue; text-align: left;">   </select>'+
+                    '&nbsp;&nbsp; Area ID <textarea disabled name="textArea" id="areaId'+x+'" cols="150" rows="1" class ="textArea1"   style="margin-bottom: 5px; width:20%; margin-left:10px;"  >[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Area ID':DISPLAY /]</textarea> <br>'+    
+                    '<p style="text-align: center; margin-left: 160px; font-size:12px; margin-bottom:10px; margin-top0px;"> Complete Impacted Discipline </p>'+
+                    '</div>'); 
+                    for(var i = 0;i<areasString.length-1;i++)
+                    {
+                        arrayArea.push(areasString[i].split(','));   
+                        var option = document.createElement("option"); //Creas el elemento opción
+                        $(option).html(arrayArea[i][0]); 
+                        $(option).appendTo("#areas"+x); 
+                    }
+                    
+                   $('#areas'+x).val(arrayArea[14][0]);          
+                   actualizarAreas();
+                }
+            });
+             $('.remove_button').click(function(){  //Once remove button is clicked
+             if (x > 1){
+                $('#areas'+x).parent('div').remove(); //Remove field html
+                x--; //Decrement field counter
+             } 
+            });
+            
+             $('#buttonInfo').click( function() {
+               window.open("[LL_REPTAG_URLPREFIXFULL /]/app/nodes/[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY /]");
+            });
+            
+             $('#download').click( function() {
+               window.open("[LL_REPTAG_URLPREFIXFULL /][LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY LLURL:DOWNLOAD /]");
+            });
+            
+            $('#botonEnviarAttach').click( function() {
+                var height = (parseInt(window.innerHeight) /1.5);
+                var width = (parseInt(window.innerWidth) /1.5);
+                // Ajuste horizontal
+                var x = parseInt((screen.width - width) / 2);
+                // Ajustae vertical
+                var y = parseInt((screen.height - height) / 2);
+                window.open("[LL_REPTAG_$WRSearch  LLURL:REPORT /]"+"&inputlabel1="+"[LL_REPTAG_TRIGGERID WFINFO:ATTACHFOLDER /]"+"&triggerIdnew="+"[LL_REPTAG_TRIGGERID /]"+"&id=" + "1", 'PopUp',`scrollbars=yes,width=${width},height=${height},top=${y},left=${x}`);
+                
+            });
+           
+    
+        
+
+        var selectedBoxes = function () {
+            var resultado = $('input[name=dataId]:checked');
+            if (resultado.length >0 ) {
+                var resultString = '';
+                resultado.each(function () {
+                    resultString +=$(this).val() + " ";
+                    
+                });
+
+                $('#result').html(resultString);
+            } else {
+                $('#result').html("You will be redirected to Homepage, please wait.");
+           
+        }
+        var params = "";
+        
+        [//Parametros de propiedades objetos
+        params+= "&letter="+"[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY /]";
+        params+= "&idFolder="+"[LL_REPTAG_TRIGGERID WFINFO:ATTACHFOLDER /]";
+        params+= "&triggerIdnew="+"[LL_REPTAG_TRIGGERID /]";
+        params+= "&withEmail="+$('#showEmail').prop('checked');
+        params+= "&renderEmailOnly="+$('#renderFiles').prop('checked');
+        var packageData = "";
+
+        [//Parametros de CAT_Correspondence
+        packageData+="&packageData="+$('#textCity').val()+":";
+        packageData+=$('#textAdress').val()+":";
+        packageData+=$('#textCompany').val()+":";
+        packageData+=$('#textCAdrss').val()+":";
+        packageData+=$('#textFun').val()+":";
+        packageData+=$('#textCoun').val()+":";
+        packageData+=$('#textRZ').val()+":";
+        packageData+=$('#textRName').val()+":";
+        packageData+=$('#responseId').val()+":";
+        packageData+=$('#criticidadId').val()+":";
+
+        [//Parametros de CAT_Document
+        packageData+=obtenerTodasLasAreas()+":";
+        packageData+=obtenerTodasLasAreasID()+":";
+        packageData+=$('#authorId').val()+":";
+        packageData+=$('#cdateId').val()+":";
+        packageData+=$('#docId').val()+":";
+        packageData+=$('#dtypeId').val()+":";
+        packageData+=$('#titleId').val()+":";
+        
+        [// Parametros de Email
+        packageData+=$('#bodyId').val()+":";
+        packageData+=$('#SubjectId').val()+":";
+        packageData+=$('#ccId').val()+":";
+        packageData+=$('#fromId').val()+":";
+        packageData+=$('#toId').val();
+        
+        console.log(packageData);
+     
+        modal.style.display = "block";
+        sendRequest("[LL_REPTAG_$WR_EDITATTR /]", handlerFunc , 'POST',params+packageData );
+
+
+       }
+        
+        });
+    </script>
+
+
+    <style>
+        html {
+            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 44%, rgba(0,121,210,1) 76%);
+            min-height: 100%;
+            
+        }
+    /* The Modal (background) */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content/Box */
+        .modal-content {
+          background-color: darkblue;
+          margin: 15% auto; /* 15% from the top and centered */
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%; /* Could be more or less, depending on screen size */
+        }
+        
+        /* The Close Button */
+        .close {
+          color: #aaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: black;
+          text-decoration: none;
+          cursor: pointer;
+        }
+        
+        /* Modal Body */
+        .modal-body {
+          padding: 2px 16px;
+        }
+        
+        /* Modal Header */
+        .modal-header {
+          background-color: darkblue;
+          text-align: left;
+          color: white;
+        }
+        
+        /* Modal Footer */
+        .modal-footer {
+          padding: 2px 16px;
+          background-color: darkblue;
+          color: white;
+        }
+        
+    </style>
+    <link 
+    rel="stylesheet" 
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" 
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+    crossorigin="anonymous">
+    <style>
+
+        .textArea1 {
+            height: 24px;
+            margin-left: 10px;
+            resize: none;
+            width: 50%;
+            font-size: 12px;
+            vertical-align: middle;
+            margin-bottom: 15px;
+        }
+
+    </style>
+</head>
+<body style="background-color: transparent; color: aliceblue; " >
+    
+        <p style="margin-bottom: 40px; font-size: 30px; width: 100%; text-align: center;"><b>OpenText&trade;</b> | Content Server <br> </p> 
+        
+    <div  style=" background-color: white; margin-left: 50px; margin-right: 50px; color:black; ">
+        <br>
+        <p style="font-size: 25px; margin-left: 50px; color: black; "> [LL_REPTAG_$WF LLURL:GIF:LARGE /] [LL_REPTAG_TRIGGERID WFINFO:TITLE /]   </p>
+       <div>
+            <hr>
+            <p style="font-size: 25px; margin-left: 50px; color: darkblue;  text-align: left;">Letter </p>
+             
+
+             <p style="font-size: 25px; margin-left: 50px; color: black; "> [LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY LLURL:GIF:LARGE /]<a name="" id="buttonInfo"  href="#" role="button">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY NODEINFO:NAME /]</a> </p>
+             <a name="" id="download" style="margin-left: 75px;" class="btn btn-primary" href="#" role="button">Download</a>
+        </div>
+        <hr>
+        <br>
+      <div id="result"> </div>
+    
+        <p style="font-size: 25px; margin-left: 50px; color: darkblue; ">Letter Content </p>
+        <div style="color: gray; font-size: 15px; text-align: end; margin-bottom: 40px; margin-right: 20%; margin-top: 2%;" >
+            <p style="font-size: 20px; margin-left: 50px; color: darkblue; text-align: left;">Recipient Information </p>
+            Emision Adress <textarea name="textArea" id="textAdress" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'AddressEmision':DISPLAY /]</textarea> <br>
+            City <textarea name="textArea" id="textCity" cols="150" rows="1" class ="textArea1"  readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'Ciudad':DISPLAY /]</textarea> <br>
+            Company <textarea name="textArea" id="textCompany" cols="150" rows="1" class ="textArea1"  readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'Company':DISPLAY /]</textarea> <br>
+            Company Address <textarea name="textArea" id="textCAdrss" cols="150" rows="1" class ="textArea1"  readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'CompanyAdress':DISPLAY /]</textarea> <br>
+            Function <textarea name="textArea" id="textFun" cols="150" rows="1" class ="textArea1"  readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'Function':DISPLAY /]</textarea> <br>
+            Country <textarea name="textArea" id="textCoun" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'Pais':DISPLAY /]</textarea> <br>
+            Business Name <textarea name="textArea" id="textRZ" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'Razon Social':DISPLAY /]</textarea> <br>
+            Reference Name <textarea name="textArea" id="textRName" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY  CAT:'CAT_Correspondence':'ReferenceName':DISPLAY /]</textarea> <br>
+            Criticity <select name="listaCriticidad" cols=150 id ="criticidadId" style="margin-bottom: 5px; width: 50%; font-size: 15px; margin-left: 5px; color: darkblue; text-align: left;"> 
+              <option>1 - Low</option>
+              <option>2 - Medium</option>
+              <option>3 - High</option>
+            </select> <br>
+            <p style="text-align: center; margin-left: 170px; font-size:14px; margin-bottom:5px; margin-top:0px;">Enter Criticity of the Letter </p>
+            Response State <select name="listaEstado" cols=150 id ="responseId" style="margin-bottom: 5px; width: 50%; font-size: 15px; margin-left: 5px; color: darkblue; text-align: left;"> 
+              <option>Pending</option>
+              <option>NA</option>
+            </select> <br>
+            <p style="text-align: center; margin-left: 140px; font-size:14px; margin-bottom:5px; margin-top:0px;">Enter Response State </p>
+            
+          
+            <p style="font-size: 20px; margin-left: 50px; color: darkblue; text-align: left;">Document Info </p>
+            <div class="areasDiv">
+            Add or Remove Areas <button class="add_button">+</button>  <button class="remove_button">-</button><br /><br />
+            Area <select name="listaArea" class="areas" cols=120 id ="areas1"  style="margin-bottom: 5px; width: 20%; font-size: 15px; margin-left: 5px; color: darkblue; text-align: left;">  </select> 
+            &nbsp;&nbsp; Area ID <textarea disabled name="textArea" id="areaId1" cols="120" rows="1" class ="textArea1"  style="margin-bottom: 5px; width:20%; margin-left:10px;">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Area ID':DISPLAY /]</textarea> <br>    
+            <p style="text-align: center; margin-left: 240px; font-size:14px; margin-bottom:10px; margin-top0px;">Complete Impacted Discipline </p>
+            </div>
+            
+            Author <textarea name="textArea" id="authorId" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Author':DISPLAY /]</textarea><br>
+            Create Date <textarea name="textArea" id="cdateId" cols="150" rows="1" class ="textArea1" readonly="">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Creation Date':DISPLAY DATE:"%d/%m/%Y" /]</textarea> <br>
+            Title <textarea name="textArea" id="titleId" cols="150" rows="1" class ="textArea1">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Title':DISPLAY /]</textarea> <br>
+            <textarea name="textArea" id="docId" style="display:none;">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'Document ID':DISPLAY /]</textarea> <br>
+            <textarea name="textArea" id="dtypeId" style="display:none;">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Document':'DocumentType':DISPLAY /]</textarea> <br>
+            
+        </div>
+        <div style="margin-left: 20px; text-align: center; margin-left: 80px; margin-right: 80px;">
+            <hr>
+            <p style="font-size: 25px; margin-center: 50px; color: darkblue;"> Emision Options</p>
+            <input type="checkbox"  id ="showEmail" name="item" checked /> Send Email<br> 
+            <p style="text-align: center; margin-left:110px; font-size:14px; margin-bottom:5px; margin-top:0px; color:gray;">When you choose this option, an Email will be sent to the client with the Letter plus the Attachments you have chosen, if applicable.</p>
+            <input type="checkbox"  id ="renderFiles" name="item"  /> Render Attachments with Letter<br>
+            <p style="text-align: center; margin-left:110px; font-size:14px; margin-bottom:5px; margin-top:0px; color:gray;">Choosing this option will Render all documents marked as Attachments with the Letter in a single PDF.</p>
+        </div>
+        
+        <div id="emailDiv" >
+            <hr>
+            <p style="font-size: 25px; margin-left: 50px; color: darkblue;">Email Info </p>
+            <div style="text-align: end; color: gray; margin-right: 20%;">
+                Preloaded Emails <select name="listaEmails" class="emails" cols=120 id ="emails" style="margin-bottom: 15px; width: 20%; font-size: 15px; margin-left: 5px; color: darkblue; text-align: left;"></select> <a name="btnAddTo" id="btnAddTo" class="btn btn-primary" href="#" role="button" style="margin-left: 20px;  font-size:11px;" > Add To </a><a name="btnAddCC" id="btnAddCC" class="btn btn-primary" href="#" role="button" style="margin-left: 30px; font-size:11px;" > Add CC </a><br>
+                From <textarea name="textArea" id="fromId" cols="150" rows="1" class ="textArea1">[LL_REPTAG_USERID USERINFO:MAILADDRESS /]</textarea> <br>
+                Subject <textarea name="textArea" id="SubjectId" cols="150" rows="1" class ="textArea1">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Correspondence':'Subject':DISPLAY /]</textarea> <br>
+                CC <textarea name="textArea" id="ccId" cols="150" rows="1" class ="textArea1" style="margin-bottom:0px;">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Correspondence':'CC':DISPLAY /]</textarea><br>
+                <p style="text-align: center; margin-left:240px; font-size:14px; margin-bottom:10px; margin-top:0px;">Enter Addresses separated by commas</p>
+                To <textarea name="textArea" id="toId" cols="150" rows="1" class ="textArea1" style="margin-bottom:0px;">[LL_REPTAG_TRIGGERID WFATTR:'File':DISPLAY CAT:'CAT_Correspondence':'To':DISPLAY /]</textarea><br>
+                <p style="text-align: center; margin-left:240px; font-size:14px; margin-bottom: 10px; margin-top:0px;">Enter Addresses separated by commas</p>
+                Body <textarea name="textArea" id="bodyId" cols="150" rows="3"  class ="textArea1" style="height: auto; vertical-align: top; margin-bottom: 0px;"></textarea><br>
+                <p style="text-align: center; margin-left:135px; font-size:14px; margin-bottom: 10px; margin-top: 0px;">Complete Email Body</p>
+            </div>
+        </div>
+        
+      <a name="btn_send" id="botonEnviarAttach" class="btn btn-primary" href="#" role="button" style="margin-left: 35%; margin-top: 60px; margin-bottom: 80px;"> Select Attachments </a>
+      <a name="btn_send" id="botonEnviar" class="btn btn-primary" href="#" role="button" style="margin-left: 80px; margin-top: 60px; margin-bottom: 80px;"> Send Letter </a><br>
+
+    
+</div>
+
+<!-- Trigger/Open The Modal -->
+<div id="myModal" class="modal" style="color:black">
+    <!-- Modal content -->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Loading Information</h2>
+      </div>
+      <div class="modal-body">
+        <p>Please Wait</p>
+        <p>You will be directed to Homepage</p>
+      </div>
+      <div class="modal-footer">
+        OpenText | Content Server
+      </div>
+    </div>
+</div>
+</body>
+</html>

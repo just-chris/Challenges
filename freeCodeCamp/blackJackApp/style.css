@@ -1,0 +1,63 @@
+*{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+
+body{
+ background: url(./img/overhead-view-aces-casino-chips-green-poker-table_23-2147881029.jpg);
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-attachment:fixed ;
+ min-height: 100vh;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+ row-gap: 2rem;
+ font-size: 54px;
+}
+
+h1{
+ color: goldenrod;
+ text-shadow: 2px 2px 2px #FFFFFF;
+ font-family: Verdana, Geneva, Tahoma, sans-serif;
+ padding-bottom: 5rem;
+}
+
+p{
+ color: #FFFFFF;
+ font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+ font-weight: bold;
+}
+
+#message-el {
+ font-style: italic;
+}
+
+.startBtn{
+ width: 30rem;
+ padding: 1rem 5rem 1rem 5rem;
+ border-radius: 1rem;
+ text-transform: uppercase;
+ background-color: goldenrod;
+ font-size: 40px;
+ color: #FFFFFF;
+ font-weight: bold;
+ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+ 
+}
+
+.startBtn:hover{
+ width: 30rem;
+ padding: 1rem 5rem 1rem 5rem;
+ border-radius: 1rem;
+ text-transform: uppercase;
+ background-color:maroon ;
+ font-size: 41px;
+ color: #FFFFFF;
+ font-weight: bold;
+ font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+ transition-duration: 0.1s;
+
+}
