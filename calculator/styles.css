@@ -28,6 +28,7 @@
  --equal-color:#e07511;
  --equal-bg-dark:#f8be88;
  --equal-color-dark:#8d531c;
+ --red:red;
 }
 
 body {
@@ -188,4 +189,9 @@ button#equal {
 .calculator.dark button#equal {
  background: var(--equal-bg-dark);
  color: var(--equal-color-dark);
+}
+
+[data-state="selected"] {
+ background: var(--red) !important;
+ color: blue;
 }
