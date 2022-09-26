@@ -1,60 +1,191 @@
-*, *::before, *::after{
- margin: 0;
+*{
  padding: 0;
- box-sizing:border-box  ;
- font-family: Gotham Rounded, sans-serif;
-font-weight: normal;
+ margin: 0;
+ box-sizing: border-box;
+ outline: 0;
+ transition: all 0.5s ease;
+ font-family: 'Montserrat', sans-serif;
 }
 
-
-body{
- background: linear-gradient(to right, #00aaFF, #00ff6c);
+:root{
+ --calculator-light: #fff;
+ --display-light:#551;
+ --calculator-dark:#071115;
+ --display-dark:#f8fafd;
+ --operator-bg:#ffd0fd;
+ --operator-color:#f967f3;
+ --operator-bg-dark:#2e1f39;
+ --operator-color-dark:#aa00a4;
+ --number-bg:#c3eaff;
+ --number-color:#002b42;
+ --number-bg-dark:#1b2f38;
+ --number-color-dark:#f8fafb;
+ --clear-bg:#ffd5d8;
+ --clear-color:#fc4552;
+ --clear-bg-dark:#2d191e;
+ --clear-color-dark:#bd3740;
+ --equal-bg:#fdd5b0;
+ --equal-color:#e07511;
+ --equal-bg-dark:#f8be88;
+ --equal-color-dark:#8d531c;
 }
 
-.calculator-grid{
+body {
+ background: rgb(205,92,233);
+ background: -moz-linear-gradient(-45deg, rgba(205,92,233,1) 27%, rgba(45,70,253,1) 80%);
+ background: -webkit-linear-gradient(-45deg, rgba(205,92,233,1) 27%, rgba(45,70,253,1) 80%);
+ background: linear-gradient(-45deg, rgba(205,92,233,1) 27%, rgba(45,70,253,1) 80%);
+ filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#cd5ce9",endColorstr="#2d46fd",GradientType=1);
+}
+
+.container{
+ height: 100vh;
+ width: 100vw;
  display: grid;
- justify-content: center;
- align-content: center;
- min-height: 100vh;
- grid-template-columns: repeat(4, 100px);
- grid-template-rows: minmax(120px, auto) repeat(5, 100px);
+ place-items: center;
 }
 
-.calculator-grid > button {
+.calculator {
+ position: relative;
+ height: auto;
+ width: auto;
+ padding: 1.5rem;
+ border-radius: 40px;
+ box-shadow: 0 0 30px #000;
+}
+
+.theme-toggler {
+ position: absolute;
+ top: 30px;
+ right: 30px;
+ color: #fff;
  cursor: pointer;
- font-size: 2rem;
- border: 1px solid white;
- outline: none;
- background-color: rgba(255, 255, 255, .75);
+ z-index: 1;
 }
 
-.calculator-grid > button:hover {
- background-color: rgba(255, 255, 255, .9);
+.theme-toggler.active{
+ color: #333;
 }
 
-.spanTwo{
- grid-column: span 2;
+.theme-toggler.active::before{
+ background-color: #fff;
 }
 
-.output {
- grid-column: 1 / -1;
- background: rgba(0, 0, 0, .65);
+.theme-toggler::before{
+ content: '';
+ height: 30px;
+ width: 30px;
+ position: absolute;
+ top: 50%;
+ transform: translate(-50%, -50%);
+ border-radius: 50%;
+ background-color: #333;
+ z-index: -1;
+}
+
+#display{
+ margin: 0 10px;
+ height: 150px;
+ width: auto;
+ max-width: 250px;
  display: flex;
  align-items: flex-end;
- justify-content: space-around;
- flex-direction: column;
- word-wrap: break-word;
- word-break: break-all;
+ justify-content: flex-end;
+ font-size: 2rem;
+ margin-bottom: 1.5rem;
+ overflow-x: hidden;
 }
 
-.output .previousOperand {
- color: rgba(255, 255, 255, .75);
- font-size: 1.5rem;
+.btn-container{
+ width: 3rem;
+ height: 3rem;
 }
 
-.output .currentOperand {
- color: rgba(255, 255, 255, 1);
- font-size: 2.5rem;
+button {
+ height: 3rem;
+ width: 3rem;
+ border-radius: 50%;
+ border: 0;
+ font-size: 1rem;
+ transition: all 200ms ease;
+ cursor: pointer;
+}
+
+button:hover{
+ transform: scale(1.05);
 }
 
 
+
+button#equal {
+ height: 6.25rem;
+ border-radius: 20px;
+}
+
+
+.buttons {
+ display: grid;
+ gap: .4rem;
+ grid-template-columns: repeat(4, 3rem);
+}
+
+/* =========================== LIGHT THEME */
+
+.calculator{
+ background: #fff;
+}
+
+.calculator #display {
+ color: #551;
+}
+
+.calculator button#clear {
+ background: var(--clear-bg);
+ color: var(--clear-color);
+}
+
+
+.calculator button.btn-number {
+ background: var(--number-bg);
+ color: var(--number-color);
+}
+
+
+.calculator button.btn-operator {
+ background: var(--operator-bg);
+ color: var(--operator-color);
+}
+
+.calculator button#equal {
+ background: var(--equal-bg);
+ color: var(--equal-color);
+}
+
+/* =========================== DARK THEME */
+
+.calculator.dark {
+ background: var(--calculator-dark);
+}
+.calculator.dark #display {
+ color: var(--display-dark);
+}
+
+.calculator.dark button#clear {
+ background: var(--clear-bg-dark);
+ color: var(--clear-color-dark);
+}
+
+.calculator.dark button.btn-number {
+ background: var(--number-bg-dark);
+ color: var(--number-color-dark);
+}
+
+.calculator.dark button.btn-operator {
+ background: var(--operator-bg-dark);
+ color: var(--operator-color-dark);
+}
+
+.calculator.dark button#equal {
+ background: var(--equal-bg-dark);
+ color: var(--equal-color-dark);
+}
