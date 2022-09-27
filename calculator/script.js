@@ -11,6 +11,8 @@ keys.addEventListener('click', event => {
   const displayValue = display.textContent
   const { type } = key.dataset
   const { previousKeyType } = calculator.dataset
+  const { operator } = key.dataset
+  console.log(operator)
   
   if ( type == 'btn-number'){
     if ( displayValue == 0) {
@@ -25,50 +27,37 @@ keys.addEventListener('click', event => {
   }
 
   if ( type == 'btn-operator') {      
-    const currentActive = calculator.querySelector(' [data-state="selected"] ')
-    if (currentActive) {
-      currentActive.dataset.state=''
-    }
-      key.dataset.state = "selected"
+    // const currentActive = calculator.querySelector(' [data-state="selected"] ')
+    // if (currentActive) {
+    //   currentActive.dataset.state=''
+    // } else {
+    //   key.dataset.state = "selected"
+    // }
+    calculator.dataset.firstNumber = displayValue
+    calculator.dataset.operator = operator
   }
 
   if ( type == 'btn-equal') {
-    console.log('Operator')    
+    const firstNumber = parseFloat(calculator.dataset.firstNumber)
+    const operator = calculator.dataset.operator
+    const secondNumber = parseFloat(displayValue) 
+    console.log (firstNumber, operator, secondNumber )
+    let result = ''
+    if (operator == 'plus' ) result = firstNumber + secondNumber
+    if (operator == 'minus' ) result = firstNumber - secondNumber
+    if (operator == 'times' ) result = firstNumber * secondNumber
+    if (operator == 'divide' ) result = firstNumber / secondNumber
+    console.log(result)
+    if (Number.isSafeInteger(result)) {
+      display.textContent = result
+    } else {
+      display.textContent = result.toFixed(2)
+    }
+    
   }
   
   calculator.dataset.previousKeyType = type
 } )
-
-
-
-// buttons.forEach((item) => {
-//  item.onclick = () => {
-//   if (item.id == 'clear' ) {
-//    display.innerText = '';
-//   } else if (item.id == 'backspace' ) {
-//    let string = display.innerText.toString();
-//    display.innerText = string.substr(0, string.length - 1);
-//   } else if (display.innerText != '' && item.id == 'equal' ) {
-//    let obtResult = display.innerText;
-//    let operation = eval(obtResult.toString());
-//     if (Number.isSafeInteger(operation)) {
-//      display.innerText = operation.toLocaleString();    
-//     } else {
-//      display.innerText = operation.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:2});
-//     }   
-//   } else if (display.innerText == '' && item.id == 'equal') {
-//    display.innerText = ' Math is hard';
-//    setTimeout(() => (display.innerText = '' ), 2000 );
-//   } else {
-//    display.innerText += item.id;
-  
-//   }
-//  }
-// })
-
-
-
-
 
 const themeToggleBtn = document.querySelector('.theme-toggler');
 
