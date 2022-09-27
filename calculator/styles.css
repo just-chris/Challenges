@@ -130,6 +130,11 @@ button#equal {
  display: grid;
  gap: .4rem;
  grid-template-columns: repeat(4, 3rem);
+ user-select: none;
+-moz-user-select: none;
+-khtml-user-select: none;
+-webkit-user-select: none;
+-o-user-select: none;
 }
 
 /* =========================== LIGHT THEME */
