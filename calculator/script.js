@@ -12,7 +12,7 @@ keys.addEventListener('click', event => {
   const { type } = key.dataset
   const { previousKeyType } = calculator.dataset
   const { operator } = key.dataset
-  console.log(operator)
+  
   
   if ( type == 'btn-number'){
     if ( displayValue == 0) {
@@ -36,6 +36,27 @@ keys.addEventListener('click', event => {
     calculator.dataset.firstNumber = displayValue
     calculator.dataset.operator = operator
   }
+
+  if (type == 'btn-sign' ) {
+    let value = parseFloat(display.textContent) 
+    if (Math.sign(value) === 1 ){
+      display.textContent = -Math.abs(value)
+    } else if (Math.sign(value) === -1){
+      display.textContent = Math.abs(value)
+    }
+  }
+
+  if (type == 'btn-backspace' ) {
+    let reduce = parseFloat(display.textContent)
+    console.log(Math.floor(reduce))
+    display.textContent = Math.floor( reduce / 10 )
+  }
+
+  if (type =='btn-clear' ) {
+    display.textContent = ''
+  }
+
+
 
   if ( type == 'btn-equal') {
     const firstNumber = parseFloat(calculator.dataset.firstNumber)
