@@ -1,7 +1,9 @@
 const display = document.querySelector('#display');
 const buttons = document.querySelectorAll('button');
 const calculator = document.querySelector('.calculator');
-const keys = calculator.querySelector('.buttons')
+const keys = calculator.querySelector('.buttons');
+
+display.textContent = 0
 
 
 keys.addEventListener('click', event => {
@@ -38,22 +40,30 @@ keys.addEventListener('click', event => {
   }
 
   if (type == 'btn-sign' ) {
-    let value = parseFloat(display.textContent) 
+       let value = parseFloat(display.textContent) 
+    console.log(value)
     if (Math.sign(value) === 1 ){
       display.textContent = -Math.abs(value)
     } else if (Math.sign(value) === -1){
       display.textContent = Math.abs(value)
+    } else  {     
+      display.textContent = 0
     }
   }
 
   if (type == 'btn-backspace' ) {
-    let reduce = parseFloat(display.textContent)
-    console.log(Math.floor(reduce))
-    display.textContent = Math.floor( reduce / 10 )
+    // let reduce = parseFloat(display.textContent)
+    // console.log(Math.floor(reduce))
+    // display.textContent = Math.floor( reduce / 10 )
+    let reduce = displayValue   
+    display.textContent = parseFloat(reduce.toString().substring(0, reduce.toString().length - 1))    
+    if (display.textContent == 'NaN') {
+      display.textContent = 0
+    }
   }
 
   if (type =='btn-clear' ) {
-    display.textContent = ''
+    display.textContent = 0
   }
 
 
@@ -63,7 +73,13 @@ keys.addEventListener('click', event => {
     const operator = calculator.dataset.operator
     const secondNumber = parseFloat(displayValue) 
     console.log (firstNumber, operator, secondNumber )
-    let result = ''
+    let result = 0
+    console.log(operator)
+    if(operator === undefined ) {
+      console.log("I'm undefined")
+      let savedValue = display.textContent
+      display.textContent = savedValue.toString()
+    }
     if (operator == 'plus' ) result = firstNumber + secondNumber
     if (operator == 'minus' ) result = firstNumber - secondNumber
     if (operator == 'times' ) result = firstNumber * secondNumber
