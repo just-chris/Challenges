@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <title>Letters Counter</title>
+ <style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .chartBox {
+        width: 400px !important;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: left;
+        align-items: center;
+    }
+
+    .guidelines {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+      align-items: flex-start;
+      font-family: 'Poppins', sans-serif;
+        font-size: 12px;
+        gap: 1rem;
+    }
+    .labelsHolder {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Poppins', sans-serif;
+        font-size: 9px;
+        padding: 1rem 0rem 0rem 0rem;
+    }
+    
+    .label {
+    display: flex;
+    min-width: 10rem;
+    flex-direction: row;
+    align-items: center;
+        
+    }
+
+    .text {
+        font-weight: 400;
+        /* text-transform: uppercase; */
+    }
+    
+    .circleDetected {
+        opacity: 0.8;
+        background: #F0912E;
+        height: 1rem;
+        width: 1rem;
+        border-radius: 50%;
+        margin-right: 0.6rem;
+    }
+
+    .circleNotified {
+        opacity: 0.8;
+        background: #1A7A89 ;
+        height: 1rem;
+        width: 1rem;
+        border-radius: 50%;
+        margin-right: 0.6rem;
+            
+    }
+ 
+    .circleAN {
+        opacity: 0.8;
+        background: #09BC8A ;
+        height: 1rem;
+        width: 1rem;
+        border-radius: 50%;
+        margin-right: 0.6rem;
+       
+    }
+
+    .circlePFA {
+        opacity: 0.8;
+        background: #005248 ;
+        height: 1rem;
+        width: 1rem;
+        border-radius: 50%;
+        margin-right: 0.6rem;
+    }
+    
+
+ </style>
+</head>
+<body>
+
+    
+
+ <div class="chartBox">
+
+  <canvas id="myChart"></canvas>
+
+  <div class="guidelines">
+    
+       <div class="label">
+           <div class="circleDetected"></div>
+           <div class="text" style="padding-right: 0.8rem;">Detected</div>
+       </div>
+       <div class="label">
+           <div class="circleNotified"></div>
+           <div class="text">Notified</div>
+       </div>
+    <div class="label">
+       <div class="circleAN"></div>
+       <div class="text">Accepted & Negotiating</div>
+   </div>
+   <div class="label">
+       <div class="circlePFA"></div>
+       <div class="text">Partially or Fully Approved</div>
+   </div>
+   
+   </div>
+</div>
+
+<script>
+// setup block
+const datapoints = [69,11,70,29 ];
+const data = {
+    labels: ['Detected','Notified', 'Accepted & Negotiating', "Partially or Fully Approved" ],
+        datasets: [{
+            label: '# of Scope Management Assignments',
+            data: datapoints,
+            backgroundColor: [
+                '#FF810A',
+                '#FFA047',
+                '#09BC8A',
+                '#056147'
+            ],
+           borderWidth: 10,
+           cutout: '56%',
+        //    borderColor: rgba(0, 0, 0, 0.1),
+           borderRadius: 18
+          
+        }]
+}
+
+// plugin block
+
+const counter = {
+    id: 'counter',
+    beforeDraw(chart, args, options) {
+        const { ctx, chartArea: {top, right, bottom, left, width, height } } = chart;
+
+        ctx.save();
+        // How to get position of 'center'
+        //ctx.fillRect(x0,y0,x1,y1)
+        //ctx.fillRect(width/2 ,top + (height / 2),10,10)
+
+        //How to write text + automate text
+
+        ctx.font = options.fontSize + 'px ' + options.fontFamily;
+        ctx.fillStyle = options.fontColor;
+        ctx.textAlign = 'center'
+        ctx.fillText( datapoints[0] + datapoints[1] + datapoints[2] + datapoints[3]  , width / 2 , (height / 2) + (options.fontSize * 0.34));
+        // x0 = starting point / horizontal level left/right
+        // y0 = starting point / vertical level top/bottom
+        // x1 = length of drawing in px / horizontal level / left /right
+        // y1 = length of drawing in px / vertical level / top/bottom
+    }
+};
+// config block
+const config = {
+    type: 'doughnut',
+    data,
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                display:false,
+                boxWidth:30,
+                boxHeight: 30
+            },
+            tooltip:{
+                enabled:true,
+                backgroundColor: 'rgba(0,0,0,0.6)',
+                borderColor: 'transparent',
+                padding: 11,
+                displayColors: false,
+            },
+            counter: {
+                fontColor: 'rgba(0,0,0,0.69)',
+                fontSize: 86.4,
+                fontFamily: 'Poppins, sans-serif'
+            }
+        }
+    },
+    plugins: [counter]
+
+}
+// render block
+
+window.addEventListener('load', function() {
+    console.log('All assets are loaded')
+    return initiate();
+});
+
+function initiate() {
+const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+);
+};
+
+
+</script>
+
+ 
+</body>
+</html>
