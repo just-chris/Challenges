@@ -9,11 +9,49 @@
  box-sizing: border-box;
 }
 
+html {
+ min-height: 100%;
+ overflow-y: scroll;
+}
+
+::-webkit-scrollbar-track {
+ /* box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+ -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);  */
+background: transparent;
+}
+
+::-webkit-scrollbar { 
+ background: #f9f871;
+  width:1rem;
+}
+
+::-webkit-scrollbar-thumb {
+ background: rgba(0, 0, 0, 0.3);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(8.9px);
+-webkit-backdrop-filter: blur(8.9px);
+border: 1px solid rgba(255, 255, 255, 0.18);
+ border: 5px solid transparent;
+ border-radius: 100vmax;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+ background: rgba(0, 0, 0, 0.5);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+backdrop-filter: blur(8.9px);
+-webkit-backdrop-filter: blur(8.9px);
+border: 1px solid rgba(255, 255, 255, 0.22);
+
+}
+
 body{
  font-family: Verdana, Geneva, Tahoma, sans-serif;
  font-size: 23px;
  height: 100%;
- background: #191716;
+ background-image: linear-gradient(to right, #d65db1, #e861a2, #f46993, #fc7486, #ff827b, #ff8f73, #ff9d6d, #ffac69, #ffbe66, #ffd166, #ffe469, #f9f871);
  display: flex;
  justify-content: center;
  align-items: center;
@@ -23,29 +61,30 @@ body{
 }
 
 img{
- width: 270px;
+ width: 100px;
  border-radius: 50%;
 }
 
 h3{
- font-family: 'Lato', Arial, Helvetica, sans-serif ;
- padding-top: 3rem;
- font-size: 29px;
+ font-family: 'Lato', Arial, sans-serif;
+ font-size: 1.5rem;
 }
 
 h5{
- font-family: 'Lato', Arial, Helvetica, sans-serif ;
- color: rgba(0, 0, 0, 0.7);
- font-size: 23px;
+ margin-top: -1.3rem;
+ font-family: 'Lato', Arial, sans-serif;
+ color: rgba(0, 0, 0, 0.5);
+ font-size: 1.1rem;
 }
 
 p{
  text-align: center;
+ font-size: 0.8rem;
 }
 
 i{
  color: rgba(0, 0, 0, 0.4);
- font-size: 2rem;
+ font-size: 1.5rem;
 }
 
 i:hover{
@@ -56,33 +95,60 @@ i:hover{
 
 
 .cardHolder{
- background: #191716;
+ background: transparent;
  width: 100%;
  height: 100%;
  padding: 5%;
- display: flex;
- flex-direction: row;
- align-items: center;
- justify-content: center;
+display: grid;
+place-items: center;
+grid-template-columns: repeat(3, 1fr);
  overflow: hidden;
-
  flex-wrap: wrap;
  gap: 3rem;
 }
 
 
-.sue{
- background:whitesmoke;
- height: 47rem;
- width: 41rem;
+.sue,
+.will,
+.indigo {
+ /* From https://css.glass */
+background: rgba(255, 255, 255, 0.3);
+border-radius: 16px;
+box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+backdrop-filter: blur(8.9px);
+-webkit-backdrop-filter: blur(8.9px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+ height: 27rem;
+ width: 20rem;
  padding: 3rem;
- display: flex;
- flex-direction: column;
- justify-content: center;
- align-items: center;
+ border-radius: 20px;
+ display: grid;
+ place-items: center;
  flex-wrap: wrap;
  gap: 2rem;
 }
 
+.socials {
+ display: flex;
+ flex-direction: row;
+ min-width: 150px;
+ justify-content: space-evenly;
+}
 
+
+@media  (max-width:1227px) {
+
+ .cardHolder {
+  grid-template-columns: repeat(2, 1fr);
+ }
+ 
+}
+
+@media  (max-width:770px) {
+
+ .cardHolder {
+  grid-template-columns: 1fr;
+ }
+ 
+}
 
