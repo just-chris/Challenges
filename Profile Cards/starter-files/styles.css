@@ -112,7 +112,7 @@ grid-template-columns: repeat(3, 1fr);
 .will,
 .indigo {
  /* From https://css.glass */
-background: rgba(255, 255, 255, 0.3);
+background: rgba(255, 255, 255, 0.2);
 border-radius: 16px;
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(8.9px);
@@ -126,7 +126,16 @@ border: 1px solid rgba(255, 255, 255, 0.1);
  place-items: center;
  flex-wrap: wrap;
  gap: 2rem;
+
 }
+
+.sue:hover,
+.will:hover,
+.indigo:hover {
+ transition: all .2s ease;
+ background: rgba(255, 255, 255, 0.3);
+} 
+
 
 .socials {
  display: flex;
