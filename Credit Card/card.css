@@ -1,0 +1,185 @@
+* {
+ margin: 0;
+ padding: 0;
+ outline: none;
+ border: 0;
+  box-sizing: border-box;
+}
+
+.credit-card {
+ color: white;
+ font-family: Arial, Helvetica, sans-serif;
+ position: relative;
+}
+
+.credit-card .front,
+.credit-card .back {
+ background: #333;
+ border: 1px solid hsl(0, 100%, 0%);
+ border-radius: .5rem;
+ width: 337px;
+ height: 169px;
+ padding: .75rem .75rem;
+ padding-bottom: 1.27rem;
+ gap: .7rem;
+}
+
+.credit-card .front {
+ display: flex;
+ flex-direction: column;
+ /* gap: 1rem; */
+ z-index: 1;
+ overflow: hidden;
+ position: relative;
+}
+
+.credit-card .card-brand {
+  display: flex;
+   margin-bottom: auto; 
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+}
+
+.card-brand .visa-logo {
+ max-height: 30px;
+ width: 50px;
+ flex-grow: 0;
+}
+
+/* IE6-9 */ /* Google Chrome, Safari 6+ & Opera 15+ */
+
+img {
+  height: 20px;
+  margin-left: -0.6rem;  
+}
+
+[data-mastercard='true'] {
+  height: 35px;
+  margin-left: .35rem;
+  margin-top: -0.2rem;
+
+}
+
+.card-brand .brand-name h2{
+ flex-grow: 1;
+ font-size: 1.27rem;
+ font-weight: bold;
+}
+
+.credit-card .form-set {
+ display: flex;
+ flex-direction: column;
+ gap: .27rem;
+}
+
+
+legend {
+ visibility: hidden;
+ height: 0;
+ width: 0;
+ position: absolute;
+ top: -200vh;
+}
+
+.cc-inputs {
+display: flex;
+gap: .5rem;
+}
+
+
+/* ==== STILL NEED FIDGETING  */
+
+.cc-inputs input[type="tel"] {
+ width: 6ch;
+ font-family: monospace;
+ text-align: center;
+ appearance: none;
+ border: 0;
+ padding: .20em .3em;
+ border-radius: .27em;
+}
+
+
+ input:not(input[type="tel"]),
+ select {
+ appearance: none;
+ border: 0;
+ padding: .30em .7em;
+ border-radius: .27em;
+}
+
+#cvc {
+ width: 6ch;
+ text-align: center;
+ appearance: none;
+ border: 0;
+ padding: .23em .4em;
+ border-radius: .27em;
+}
+
+
+
+/* ==== STILL NEED FIDGETING  */
+
+.credit-card label {
+ font-size: .69rem;
+ text-transform: uppercase;
+}
+
+.card-info {
+ display: flex;
+ flex-direction: row !important;
+ gap: 2rem;
+}
+
+.form-set .name {
+ flex-grow: 1;
+}
+
+.credit-card .front::before {
+ content: '';
+ position: absolute;
+ height: 450px;
+ width: 400px;
+ border-radius: 100%;
+ background-color: hsl(0, 0%, 100%, .15);
+ top: -250px;
+ left: -150px;
+ z-index: -1; 
+}
+
+.credit-card .front::after {
+  content: '';
+  position: absolute;
+  height: 600px;
+  width: 600px;
+  border-radius: 100%;
+  background-color: hsl(0, 0%, 100%, .1);
+  bottom: -475px;
+  left: -150px;
+  z-index: -1; 
+ }
+
+
+.credit-card .back {
+  position: absolute;
+  top: 2rem;
+  left:4rem;
+}
+
+.credit-card .stripe {
+  background-color: hsl(200, 80%, 10%);
+  height: 35px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 1.2rem;
+}
+
+.credit-card .cvc {
+  position: absolute;
+  bottom: 3.3rem;
+  right: .5rem;
+
+}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <link rel="stylesheet" href="./card.css">
+ <script src="./card.js" defer></script>
+ <title>Document</title>
+</head>
+<body>
+
+ <form action="" class="credit-card">
+
+
+  <section class="front">
+
+   <div class="card-brand">
+
+    <div class="brand-name"><h2>Santander Río</h2></div>
+    <div class="visa-logo"><img class="img-logo" src="./visa.png" alt="" data-logo></div>
+
+   </div>
+
+   <fieldset class="form-set">
+    <legend>Card Number</legend>
+    <label for="CC">Card Number</label>
+    <div class="cc-inputs" data-connected-inputs>
+     <input type="tel" name="cc-1" id="cc-1" maxlength="4" aria-label="Credit Card First 4 Digits" required pattern="[0-9]{4}">
+     <input type="tel" name="cc-2" id="cc-2" maxlength="4" aria-label="Credit Card Second 4 Digits" required pattern="[0-9]{4}">
+     <input type="tel" name="cc-3" id="cc-3" maxlength="4" aria-label="Credit Card Third 4 Digits" required pattern="[0-9]{4}">
+     <input type="tel" name="cc-4" id="cc-4" maxlength="4" aria-label="Credit Card Last 4 Digits" required pattern="[0-9]{4}">
+    </div>
+
+   </fieldset>
+
+   <div class="card-info">
+
+    <div class="form-set name">
+     <label for="name">Name</label>
+     <input type="text" id="name" required>
+    </div>
+
+    <fieldset class="form-set">
+     <legend>Expiration</legend>
+     <label for="months">Expiration</label>
+     <div class="cc-inputs expiration">
+      <select  id="expiration" aria-label="Expiration Month" required>
+       <option value="1">1</option>
+       <option value="2">2</option>
+       <option value="3">3</option>
+       <option value="4">4</option>
+       <option value="5">5</option>
+       <option value="6">6</option>
+       <option value="7">7</option>
+       <option value="8">8</option>
+       <option value="9">9</option>
+       <option value="10">10</option>
+       <option value="11">11</option>
+       <option value="12">12</option>
+      </select>
+
+      <select  id="years" aria-label="Expiration Year" required data-expiration-year>
+      
+
+      </select>
+
+     </div>
+
+    </fieldset>
+
+   </div>
+
+
+  </section>
+
+    <!-- ========= END FRONT ======== -->
+
+
+  <section class="back">
+   <div class="stripe"></div>
+   <div class="form-set cvc">
+    <label for="cvc">CVC</label>
+    <input type="tel"  id="cvc" maxlength="3" required>
+   </div>
+  </section>
+  
+
+  <!-- ========= END BACK ======== -->
+
+ </form>
+ 
+
+ 
+</body>
+</html>
